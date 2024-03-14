@@ -48,6 +48,7 @@ vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
 -- Buffers
 vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev buffer' })
 vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bb', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 vim.keymap.set('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })
@@ -81,17 +82,15 @@ vim.keymap.set('n', '<leader>td', function()
   end
 end, { desc = '[T]oggle [D]iagnostic' })
 
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
+-- Windows
+vim.keymap.set('n', '<leader>ww', '<C-W>p', { desc = 'Other window', remap = true })
+vim.keymap.set('n', '<leader>wd', '<C-W>c', { desc = 'Delete window', remap = true })
+vim.keymap.set('n', '<leader>w-', '<C-W>s', { desc = 'Split window below', remap = true })
+vim.keymap.set('n', '<leader>w|', '<C-W>v', { desc = 'Split window right', remap = true })
+vim.keymap.set('n', '<leader>-', '<C-W>s', { desc = 'Split window below', remap = true })
+vim.keymap.set('n', '<leader>|', '<C-W>v', { desc = 'Split window right', remap = true })
 
--- Highlight when yanking (copying) text
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
+-- Better paste
+vim.keymap.set('v', 'p', '"_dP', { desc = 'Paste without changing registry' })
 
 -- vim: ts=2 sts=2 sw=2 et
