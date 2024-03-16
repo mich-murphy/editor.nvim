@@ -3,7 +3,10 @@
 
 -- Launch Lazy
 vim.keymap.set('n', '<leader>l', '<cmd>Lazy<cr>', { desc = '[L]azy' })
---
+
+-- Launch Mason
+vim.keymap.set('n', '<leader>m', '<cmd>Mason<cr>', { desc = '[M]ason' })
+
 -- Better up/down
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
