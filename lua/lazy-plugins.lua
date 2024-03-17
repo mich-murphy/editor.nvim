@@ -4,7 +4,7 @@ require('lazy').setup({
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
     { import = 'plugins' }, -- For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   },
-  install = { colorscheme = { 'tokyonight' } },
+  install = { colorscheme = { 'tokyonight-night' } },
   checker = { enabled = true }, -- Automatically check for plugin updates
 }, {
   ui = {
