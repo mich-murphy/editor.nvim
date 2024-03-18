@@ -20,6 +20,16 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+
+    -- Python debugger
+    {
+      "mfussenegger/nvim-dap-python",
+      config = function()
+        local path = "/User/mm/.local/share/nvim/mason/bin/debugpy"
+        -- local path = require("mason-registry").get_package("debugpy"):get_install_path()
+        require("dap-python").setup(path .. "/venv/bin/python")
+      end,
+    }
   },
   config = function()
     local dap = require 'dap'

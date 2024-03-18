@@ -62,6 +62,9 @@ return {
       local servers = {
         lua_ls = {
           settings = {
+            nixd = {},
+            pyright = {},
+            ruff_lsp = {},
             Lua = {
               completion = {
                 callSnippet = 'Replace',
@@ -69,6 +72,7 @@ return {
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               diagnostics = { disable = { 'missing-fields' } },
             },
+            marksman = {},
           },
         },
       }
@@ -80,6 +84,12 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
+        'pyright',
+        'ruff-lsp',
+        'ruff',
+        'debugpy',
+        'markdownlint',
+        'marksman',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
