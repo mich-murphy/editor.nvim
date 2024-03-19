@@ -41,6 +41,10 @@ return {
               callback = vim.lsp.buf.clear_references,
             })
           end
+          -- Preference Pyright over Ruff for hover information in Python
+          if client.name == "ruff_lsp" then
+            client.server_capabilities.hoverProvider = false
+          end
         end,
       })
 
@@ -50,7 +54,12 @@ return {
       local servers = {
         lua_ls = {
           settings = {
-            nixd = {},
+            nil_ls = {
+              nix = {
+                binary = '/run/current-system/sw/bin/nix',
+                flake = { autoArchive = true },
+              },
+            },
             pyright = {},
             ruff_lsp = {},
             Lua = {
@@ -72,11 +81,13 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
-        'pyright',
-        'ruff-lsp',
-        'ruff',
+        'nil', -- Nix lsp
+        'pyright', -- Used for type checking python code
+        'ruff-lsp', -- Python lsp
+        'ruff', -- Python formatting
         'markdownlint',
         'marksman',
+        'sqlfmt', -- SQL formatting
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
