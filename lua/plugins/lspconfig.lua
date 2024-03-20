@@ -80,6 +80,25 @@ return {
                 },
               },
             },
+            yamlls = {
+              -- Support line folding
+              capabilities = {
+                textDocument = {
+                  foldingRange = {
+                    dynamicRegistration = false,
+                    lineFoldingOnly = true,
+                  },
+                },
+              },
+              settings = {
+                redhat = { telemetry = { enabled = false } },
+                yaml = {
+                  keyOrdering = false,
+                  format = { enable = true },
+                  validate = true,
+                },
+              },
+            },
           },
         },
       }
@@ -100,7 +119,9 @@ return {
         'sqlfmt', -- SQL formatting
         'codelldb', -- Rust debugger
         'rust-analyzer',
+        'json-lsp',
         'prettier', -- JSON, HTML, CSS formatting
+        'yaml-language-server',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -112,7 +133,9 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            if server_name ~= 'rust-analyzer' then
+              require('lspconfig')[server_name].setup(server)
+            end
           end,
         },
       }

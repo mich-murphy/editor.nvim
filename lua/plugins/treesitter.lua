@@ -24,6 +24,7 @@ return {
         'json',
         'json5',
         'jsonc',
+        'yaml',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
