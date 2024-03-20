@@ -20,7 +20,10 @@ return {
         'rust',
         'sql',
         'markdown',
-        'markdown_inline'
+        'markdown_inline',
+        'json',
+        'json5',
+        'jsonc',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,

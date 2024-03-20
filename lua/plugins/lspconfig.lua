@@ -10,7 +10,7 @@ return {
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+        group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
         callback = function(event)
           local map = function(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -26,6 +26,8 @@ return {
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('<leader>ci', '<cmd>LspInfo<cr>', 'LSP: [C]ode [I]nfo')
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -42,7 +44,7 @@ return {
             })
           end
           -- Preference Pyright over Ruff for hover information in Python
-          if client.name == "ruff_lsp" then
+          if client.name == 'ruff_lsp' then
             client.server_capabilities.hoverProvider = false
           end
         end,
@@ -70,6 +72,14 @@ return {
               diagnostics = { disable = { 'missing-fields' } },
             },
             marksman = {},
+            jsonls = {
+              settings = {
+                json = {
+                  format = { enable = true },
+                  validate = { enable = true },
+                },
+              },
+            },
           },
         },
       }
@@ -88,6 +98,9 @@ return {
         'markdownlint',
         'marksman',
         'sqlfmt', -- SQL formatting
+        'codelldb', -- Rust debugger
+        'rust-analyzer',
+        'prettier', -- JSON, HTML, CSS formatting
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
