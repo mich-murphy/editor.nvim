@@ -2,6 +2,7 @@ return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    event = 'VeryLazy',
     opts = {
       ensure_installed = {
         'bash',
@@ -52,6 +53,7 @@ return {
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },
+    event = 'VeryLazy',
     opts = { mode = 'cursor', max_lines = 3 },
   },
 }

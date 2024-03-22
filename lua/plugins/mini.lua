@@ -6,6 +6,7 @@ return {
 
   { -- Pair opening bracket etc. with closing
     'echasnovski/mini.pairs',
+    event = 'InsertEnter',
     opts = {},
   },
 
