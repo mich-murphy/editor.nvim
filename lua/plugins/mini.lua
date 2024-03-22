@@ -102,14 +102,14 @@ return {
   },
 
   { --Delete buffers
-    "echasnovski/mini.bufremove",
+    'echasnovski/mini.bufremove',
     keys = {
       {
-        "<leader>bd",
+        '<leader>bd',
         function()
-          local bd = require("mini.bufremove").delete
+          local bd = require('mini.bufremove').delete
           if vim.bo.modified then
-            local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
+            local choice = vim.fn.confirm(('Save changes to %q?'):format(vim.fn.bufname()), '&Yes\n&No\n&Cancel')
             if choice == 1 then -- Yes
               vim.cmd.write()
               bd(0)
@@ -120,11 +120,11 @@ return {
             bd(0)
           end
         end,
-        desc = "[B]uffer [D]elete",
+        desc = '[B]uffer [D]elete',
       },
       -- stylua: ignore
-      { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "[B]uffer [D]elete (Force)" },
+      { '<leader>bD', function() require('mini.bufremove').delete(0, true) end, desc = '[B]uffer [D]elete (Force)' },
     },
-  }
+  },
 }
 -- vim: ts=2 sts=2 sw=2 et
