@@ -16,8 +16,17 @@ return {
         end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
-
-      -- Useful for getting pretty icons, but requires a Nerd Font.
+      {
+        'debugloop/telescope-undo.nvim',
+        event = 'VeryLazy',
+        keys = {
+          { -- lazy style key map
+            '<leader>u',
+            '<cmd>Telescope undo<cr>',
+            desc = 'undo history',
+          },
+        },
+      },
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
@@ -36,12 +45,28 @@ return {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+          ['undo'] = {
+            use_delta = false,
+            mappings = {
+              i = {
+                ["<cr>"] = require("telescope-undo.actions").restore,
+                ["<C-cr>"] = require("telescope-undo.actions").yank_additions,
+                ["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
+              },
+              n = {
+                ["y"] = require("telescope-undo.actions").yank_additions,
+                ["Y"] = require("telescope-undo.actions").yank_deletions,
+                ["u"] = require("telescope-undo.actions").restore,
+              },
+            }
+          },
         },
       }
 
       -- Enable telescope extensions, if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'undo')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
