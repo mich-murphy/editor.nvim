@@ -44,7 +44,7 @@ return {
             })
           end
           -- Preference Pyright over Ruff for hover information in Python
-          if client.name == 'ruff_lsp' then
+          if client and client.name == 'ruff_lsp' then
             client.server_capabilities.hoverProvider = false
           end
         end,
@@ -54,50 +54,50 @@ return {
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       local servers = {
-        lua_ls = {
+        nil_ls = {
+          nix = {
+            binary = '/run/current-system/sw/bin/nix',
+            flake = { autoArchive = true },
+          },
+        },
+        pyright = {},
+        ruff_lsp = {},
+        marksman = {},
+        jsonls = {
           settings = {
-            nil_ls = {
-              nix = {
-                binary = '/run/current-system/sw/bin/nix',
-                flake = { autoArchive = true },
+            json = {
+              format = { enable = true },
+              validate = { enable = true },
+            },
+          },
+        },
+        yamlls = {
+          -- Support line folding
+          capabilities = {
+            textDocument = {
+              foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
               },
             },
-            pyright = {},
-            ruff_lsp = {},
+          },
+          settings = {
+            redhat = { telemetry = { enabled = false } },
+            yaml = {
+              keyOrdering = false,
+              format = { enable = true },
+              validate = true,
+            },
+          },
+        },
+        lua_ls = {
+          settings = {
             Lua = {
               completion = {
                 callSnippet = 'Replace',
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               diagnostics = { disable = { 'missing-fields' } },
-            },
-            marksman = {},
-            jsonls = {
-              settings = {
-                json = {
-                  format = { enable = true },
-                  validate = { enable = true },
-                },
-              },
-            },
-            yamlls = {
-              -- Support line folding
-              capabilities = {
-                textDocument = {
-                  foldingRange = {
-                    dynamicRegistration = false,
-                    lineFoldingOnly = true,
-                  },
-                },
-              },
-              settings = {
-                redhat = { telemetry = { enabled = false } },
-                yaml = {
-                  keyOrdering = false,
-                  format = { enable = true },
-                  validate = true,
-                },
-              },
             },
           },
         },
@@ -110,21 +110,17 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
-        'nil', -- Nix lsp
-        'pyright', -- Used for type checking python code
-        'ruff-lsp', -- Python lsp
+        -- 'nil', -- Nix lsp
         'ruff', -- Python formatting
         'markdownlint',
-        'marksman',
         'sqlfmt', -- SQL formatting
         'codelldb', -- Rust debugger
         'rust-analyzer',
-        'json-lsp',
         'prettier', -- JSON, HTML, CSS formatting
-        'yaml-language-server',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      table.insert(servers, { nixd = {} })
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
